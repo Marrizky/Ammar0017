@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mie Ayam Barokah - Restoran Terbaik</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #2d3436, #636e72);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #fdcb6e, #e17055);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(45, 52, 54, 0.7), rgba(45, 52, 54, 0.7)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23fdcb6e" width="1200" height="600"/><circle fill="%23e17055" cx="200" cy="150" r="80" opacity="0.3"/><circle fill="%23d63031" cx="800" cy="300" r="120" opacity="0.2"/><circle fill="%23fd79a8" cx="600" cy="450" r="100" opacity="0.3"/></svg>');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 8rem 0;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(253, 203, 110, 0.1), rgba(225, 112, 85, 0.1));
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.5);
+            animation: slideInDown 1s ease-out;
+        }
+
+        @keyframes slideInDown {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            animation: slideInUp 1s ease-out 0.3s both;
+        }
+
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #fdcb6e, #e17055);
+            color: white;
+            padding: 1rem 2.5rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(253, 203, 110, 0.3);
+            animation: pulse 2s infinite;
+            border: none;
+            cursor: pointer;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 8px 25px rgba(253, 203, 110, 0.3); }
+            50% { box-shadow: 0 12px 35px rgba(253, 203, 110, 0.5); }
+            100% { box-shadow: 0 8px 25px rgba(253, 203, 110, 0.3); }
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(253, 203, 110, 0.4);
+        }
+
+        /* Menu Section */
+        .menu {
+            padding: 6rem 0;
+            background: white;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #2d3436;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(45deg, #fdcb6e, #e17055);
+            margin: 1rem auto;
+            border-radius: 2px;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .menu-item {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            border-color: rgba(253, 203, 110, 0.3);
+        }
+
+        .menu-content {
+            padding: 2rem;
+        }
+
+        .menu-item h3 {
+            font-size: 1.4rem;
+            color: #2d3436;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price {
+            color: #e17055;
+            font-weight: bold;
+            font-size: 1.2rem;
+            background: linear-gradient(45deg, #fdcb6e, #e17055);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .menu-item p {
+            color: #636e72;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .menu-badge {
+            display: inline-block;
+            background: linear-gradient(45deg, #00b894, #00cec9);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .menu-category {
+            background: linear-gradient(45deg, #74b9ff, #0984e3);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+
+        /* WhatsApp Widget */
+        .whatsapp-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .whatsapp-button {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #25d366, #128c7e);
+            border-radius: 50%;
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3);
+            transition: all 0.3s ease;
+            animation: bounce 2s infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        .whatsapp-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(37, 211, 102, 0.4);
+        }
+
+        .whatsapp-tooltip {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            background: #333;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .whatsapp-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            right: 20px;
+            border: 5px solid transparent;
+            border-top-color: #333;
+        }
+
+        .whatsapp-widget:hover .whatsapp-tooltip {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* About Section */
+        .about {
+            padding: 6rem 0;
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            text-align: center;
+        }
+
+        .about p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+            opacity: 0.95;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 4rem 0;
+            background: #2d3436;
+            color: white;
+            text-align: center;
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .contact-item {
+            background: rgba(255,255,255,0.1);
+            padding: 1.5rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-5px);
+        }
+
+        .contact-item h4 {
+            margin-bottom: 0.5rem;
+            color: #fdcb6e;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .whatsapp-widget {
+                bottom: 15px;
+                right: 15px;
+            }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">🍜 Mie Ayam Barokah</div>
+            </div>
+        </div>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Selamat Datang di Mie Ayam Barokah</h1>
+                <p>Nikmati kelezatan mie ayam autentik dengan cita rasa yang tak terlupakan</p>
+                <button class="cta-button" onclick="scrollToMenu()">Jelajahi Menu Lezat Kami</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="menu" class="menu">
+        <div class="container">
+            <h2 class="section-title">Menu Lengkap Kami</h2>
+
+            <div class="menu-grid">
+                <!-- Makanan Utama -->
+                <div class="menu-item">
+                    <div class="menu-content">
+                        <div class="menu-category">Makanan Utama</div>
+                        <h3>Mie Ayam Original <span class="price">Rp 25.000</span></h3>
+                        <span class="menu-badge">Bestseller</span>
+                        <p>Mie ayam klasik dengan ayam suwir yang lezat, dilengkapi dengan pangsit goreng, sayuran segar, dan kuah kaldu yang gurih. Porsi yang mengenyangkan dengan rasa autentik.</p>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-content">
+                        <div class="menu-category">Makanan Utama</div>
+                        <h3>Mie Ayam Special <span class="price">Rp 35.000</span></h3>
+                        <span class="menu-badge">Premium</span>
+                        <p>Varian premium dengan topping extra ayam, bakso ayam, pangsit rebus dan goreng, plus telur puyuh. Cocok untuk yang ingin menikmati kelengkapan rasa dalam satu mangkuk.</p>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-content">
+                        <div class="menu-category">Makanan Utama</div>
+                        <h3>Mie Ayam Bakso <span class="price">Rp 30.000</span></h3>
+                        <span class="menu-badge">Favorit</span>
+                        <p>Kombinasi sempurna mie ayam dengan bakso kenyal buatan sendiri. Dilengkapi dengan sayuran hijau segar dan kuah kaldu yang hangat menghangatkan hati.</p>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-content">
+                        <div class="menu-category">Makanan Utama</div>
+                        <h3>Mie Ayam Jamur <span class="price">Rp 28.000</span></h3>
+                        <span class="menu-badge">Sehat</span>
+                        <p>Inovasi rasa dengan tambahan jamur shiitake dan jamur kuping yang memberikan tekstur unik. Kaya akan nutrisi dengan cita rasa yang berbeda dan menyegarkan.</p>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-content">
+                        <div class="menu-category">Makanan Utama</div>
+                        <h3>Mie Ayam Pedas <span class="price">Rp 27.000</span></h3>
+                        <span class="menu-badge">Spicy</span>
+                        <p>Untuk pecinta pedas! Mie ayam dengan sambal khusus yang menggigit, cabai rawit pilihan, dan rempah rahasia yang membuat ketagihan. Tersedia level kepedasan.</p>
+                    </div>
+                </div>
+
+                <!-- Minuman -->
+                <div class="menu-item">
+                    <div class="menu-content">
+                        <div class="menu-category">Minuman</div>
+                        <h3>Es Teh Manis <span class="price">Rp 8.000</span></h3>
+                        <span class="menu-badge">Segar</span>
+                        <p>Teh manis dingin yang menyegarkan, cocok untuk menemani hidangan berkuah. Dibuat dari teh pilihan dengan tingkat manis yang pas.</p>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-content">
+                        <div class="menu-category">Minuman</div>
+                        <h3>Es Jeruk <span class="price">Rp 12.000</span></h3>
+                        <span class="menu-badge">Vitamin C</span>
+                        <p>Jeruk peras segar dengan es batu, kaya vitamin C dan sangat menyegarkan. Dibuat dari jeruk lokal pilihan yang manis dan segar.</p>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-content">
+                        <div class="menu-category">Minuman</div>
+                        <h3>Kopi Hitam <span class="price">Rp 10.000</span></h3>
+                        <span class="menu-badge">Arabica</span>
+                        <p>Kopi arabica berkualitas tinggi dengan aroma yang khas. Cocok untuk yang menyukai kopi tanpa gula, rasa yang kuat dan aroma yang menggoda.</p>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-content">
+                        <div class="menu-category">Minuman</div>
+                        <h3>Es Campur <span class="price">Rp 15.000</span></h3>
+                        <span class="menu-badge">Manis</span>
+                        <p>Minuman segar dengan campuran kolang-kaling, cincau, nangka, dan sirup manis. Perfect untuk cuaca panas dan sebagai penutup makan yang manis.</p>
+                    </div>
+                </div>
+
+                <!-- Cemilan -->
+                <div class="menu-item">
+                    <div class="menu-content">
+                        <div class="menu-category">Cemilan</div>
+                        <h3>Kerupuk Basreng <span class="price">Rp 12.000</span></h3>
+                        <span class="menu-badge">Pedas</span>
+                        <p>Kerupuk basreng pedas yang gurih dan renyah. Terbuat dari kerupuk pilihan dengan bumbu pedas yang meresap sempurna. Cocok untuk teman ngemil.</p>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-content">
+                        <div class="menu-category">Cemilan</div>
+                        <h3>Tahu Bulat <span class="price">Rp 10.000</span></h3>
+                        <span class="menu-badge">Crispy</span>
+                        <p>Tahu bulat crispy dengan bumbu rahasia yang gurih. Disajikan hangat dengan saus sambal atau mayones sesuai selera. Tekstur luar crispy dalam lembut.</p>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-content">
+                        <div class="menu-category">Cemilan</div>
+                        <h3>Cilok Kuah <span class="price">Rp 15.000</span></h3>
+                        <span class="menu-badge">Hangat</span>
+                        <p>Cilok kenyal dengan kuah bumbu kacang yang gurih. Dilengkapi dengan taburan bawang goreng dan kerupuk. Cemilan hangat yang mengenyangkan.</p>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-content">
+                        <div class="menu-category">Cemilan</div>
+                        <h3>Pisang Goreng <span class="price">Rp 8.000</span></h3>
+                        <span class="menu-badge">Tradisional</span>
+                        <p>Pisang goreng crispy dengan tepung rahasia yang renyah di luar dan lembut di dalam. Disajikan hangat, cocok untuk teman minum teh atau kopi.</p>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-content">
+                        <div class="menu-category">Cemilan</div>
+                        <h3>Lumpia Basah <span class="price">Rp 18.000</span></h3>
+                        <span class="menu-badge">Segar</span>
+                        <p>Lumpia basah dengan isian rebung, telur, dan sayuran segar. Disajikan dengan saus kacang yang kental dan gurih. Cemilan sehat dan mengenyangkan.</p>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-content">
+                        <div class="menu-category">Cemilan</div>
+                        <h3>Bakwan Jagung <span class="price">Rp 10.000</span></h3>
+                        <span class="menu-badge">Gurih</span>
+                        <p>Bakwan jagung dengan butiran jagung manis yang melimpah. Digoreng hingga golden brown dan crispy. Disajikan dengan cabai rawit atau saus sambal.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">Tentang Kami</h2>
+            <p>Mie Ayam Barokah telah melayani pelanggan dengan cita rasa autentik sejak tahun 2010. Kami menggunakan bahan-bahan berkualitas tinggi dan resep turun temurun untuk menghadirkan pengalaman kuliner yang tak terlupakan. Setiap mangkuk mie ayam kami dibuat dengan penuh cinta dan dedikasi untuk kepuasan Anda.</p>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">Hubungi Kami</h2>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <h4>📍 Alamat</h4>
+                    <p>Jl. Raya Barokah No. 123<br>Jakarta Selatan 12345</p>
+                </div>
+                <div class="contact-item">
+                    <h4>📞 Telepon</h4>
+                    <p>+62 21 1234 5678<br>+62 812 3456 7890</p>
+                </div>
+                <div class="contact-item">
+                    <h4>🕒 Jam Buka</h4>
+                    <p>Senin - Minggu<br>08:00 - 22:00 WIB</p>
+                </div>
+                <div class="contact-item">
+                    <h4>📧 Email</h4>
+                    <p>info@mieayambarokah.com<br>order@mieayambarokah.com</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WhatsApp Widget -->
+    <div class="whatsapp-widget">
+        <div class="whatsapp-tooltip">Chat via WhatsApp</div>
+        <a href="https://wa.me/6281234567890?text=Halo%20Mie%20Ayam%20Barokah!%20Saya%20ingin%20bertanya%20tentang%20menu%20dan%20harga." 
+           class="whatsapp-button" 
+           target="_blank" 
+           rel="noopener noreferrer">
+            📱
+        </a>
+    </div>
+
+    <script>
+        function scrollToMenu() {
+            document.getElementById('menu').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        }
+
+        // Smooth scroll for all anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe menu items for scroll animation
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(30px)';
+            item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(item);
+        });
+    </script>
+</body>
+</html>
