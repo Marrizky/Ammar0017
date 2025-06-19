@@ -554,6 +554,7 @@
             <div class="hero">
                 <h1>WELCOME TO MY WEBSITE</h1>
                 <p>Sistem Informasi | Universitas Darma Persada | NIM: 2024240017</p>
+                <a href="#" class="cta-button" onclick="showSection('about')">Explore My Work</a>
             </div>
         </div>
     </section>
@@ -583,19 +584,19 @@
                 <h2 style="text-align: center; margin-bottom: 3rem; font-size: 3rem; color: #22c55e; font-weight: 700;">My Work</h2>
                 <div class="tasks-grid">
                     <div class="task-card">
-                        <h3>🍽️ Restaurant Website</h3>
-                        <p>Sistem manajemen restoran lengkap dengan fitur menu digital, sistem pemesanan online, user-friendly dan responsive.</p>
-                        <a href="#" class="task-button" onclick="showTaskPage('restaurant')">View Project</a>
+                        <h3>Restaurant Website</h3>
+                        <p>Hasil Project</p>
+                        <a href="/WebRestoran/index.html" class="task-button restaurant-link">View Project</a>
                     </div>
                     <div class="task-card">
-                        <h3>⚡ CRUD Application</h3>
-                        <p>Aplikasi CRUD (Create, Read, Update, Delete) dengan interface modern untuk manajemen data yang efisien dan sistem database yang optimal.</p>
-                        <a href="#" class="task-button" onclick="showTaskPage('crud')">View Project</a>
+                        <h3>Website sederhana</h3>
+                        <p>Hasil Project</p>
+                        <a href="/WebSederhana/index.html" class="task-button sederhana-link">View Project</a>
                     </div>
                     <div class="task-card">
-                        <h3>📊 CDM System</h3>
-                        <p>Customer Data Management system yang powerful untuk mengelola data pelanggan dengan analitik mendalam dan reporting yang komprehensif.</p>
-                        <a href="#" class="task-button" onclick="showTaskPage('cdm')">View Project</a>
+                        <h3>My SQL</h3>
+                        <p>Hasil Tugas</p>
+                        <a href="photo/SQL.jpg" class="task-button" target="_blank">View Project</a>
                     </div>
                 </div>
             </div>
@@ -633,41 +634,6 @@
             </div>
         </div>
     </section>
-
-    <!-- Task Pages -->
-    <section id="restaurant-task" class="task-page">
-        <div class="container">
-            <div class="task-placeholder">
-                <h2>🍽️ Restaurant Management System</h2>
-                <p>Project website restoran dengan sistem manajemen lengkap</p>
-                <p>Features: Menu Management, Online Ordering, Payment Integration, Admin Dashboard</p>
-                <a href="#" class="back-btn" onclick="showSection('tasks')">← Back to Portfolio</a>
-            </div>
-        </div>
-    </section>
-
-    <section id="crud-task" class="task-page">
-        <div class="container">
-            <div class="task-placeholder">
-                <h2>⚡ CRUD Application</h2>
-                <p>Full-stack CRUD application dengan database management</p>
-                <p>Features: Data Management, Search & Filter, User Authentication, API Integration</p>
-                <a href="#" class="back-btn" onclick="showSection('tasks')">← Back to Portfolio</a>
-            </div>
-        </div>
-    </section>
-
-    <section id="cdm-task" class="task-page">
-        <div class="container">
-            <div class="task-placeholder">
-                <h2>📊 Customer Data Management</h2>
-                <p>Comprehensive CDM system untuk mengelola data pelanggan</p>
-                <p>Features: Customer Analytics, Data Visualization, Reporting Dashboard, CRM Integration</p>
-                <a href="#" class="back-btn" onclick="showSection('tasks')">← Back to Portfolio</a>
-            </div>
-        </div>
-    </section>
-
     <script>
         // Enhanced Navigation functionality
         function showSection(sectionName) {
@@ -809,10 +775,12 @@
             navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
         });
 
-        // Add smooth scrolling for all navigation
+        // Add smooth scrolling for all navigation, except restaurant-link
         document.querySelectorAll('.nav-links a, .cta-button, .task-button, .back-btn').forEach(link => {
             link.addEventListener('click', function(e) {
-                e.preventDefault();
+                if (!link.classList.contains('restaurant-link')) {
+                    e.preventDefault();
+                }
             });
         });
     </script>
