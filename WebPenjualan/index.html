@@ -92,6 +92,7 @@
             color: white;
             cursor: pointer;
             transition: transform 0.3s ease;
+            position: relative;
         }
 
         .cart-btn:hover {
@@ -328,6 +329,123 @@
             line-height: 1.5;
         }
 
+        /* Cart Modal */
+        .cart-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .cart-content {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 1rem;
+        }
+
+        .cart-title {
+            font-size: 1.5rem;
+            color: #ffffff;
+        }
+
+        .close-cart {
+            background: none;
+            border: none;
+            color: #ff6b35;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .cart-items {
+            margin-bottom: 1.5rem;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-info {
+            flex: 1;
+        }
+
+        .item-name {
+            color: #ffffff;
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+        }
+
+        .item-price {
+            color: #ff6b35;
+            font-size: 0.9rem;
+        }
+
+        .remove-item {
+            background: #ff4757;
+            border: none;
+            color: white;
+            padding: 0.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .remove-item:hover {
+            background: #ff3742;
+        }
+
+        .cart-total {
+            border-top: 2px solid #ff6b35;
+            padding-top: 1rem;
+            text-align: center;
+        }
+
+        .total-text {
+            font-size: 1.2rem;
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        .total-amount {
+            font-size: 1.5rem;
+            color: #ff6b35;
+            font-weight: bold;
+        }
+
+        .empty-cart {
+            text-align: center;
+            color: #cccccc;
+            padding: 2rem;
+        }
+
         /* Footer */
         footer {
             background: rgba(0, 0, 0, 0.3);
@@ -555,6 +673,24 @@
         </div>
     </footer>
 
+    <!-- Cart Modal -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h3 class="cart-title">Keranjang Belanja</h3>
+                <button class="close-cart" onclick="closeCart()">✕</button>
+            </div>
+            
+            <div class="cart-items" id="cartItems">
+                <!-- Cart items will be displayed here -->
+            </div>
+            
+            <div class="cart-total" id="cartTotal">
+                <!-- Total will be displayed here -->
+            </div>
+        </div>
+    </div>
+
     <div class="notification" id="notification">
         Produk berhasil ditambahkan ke keranjang!
     </div>
@@ -564,11 +700,77 @@
         let cartCount = 0;
 
         function addToCart(productName, price) {
-            cart.push({name: productName, price: price});
+            // Check if product already exists in cart
+            const existingProduct = cart.find(item => item.name === productName);
+            
+            if (existingProduct) {
+                existingProduct.quantity += 1;
+            } else {
+                cart.push({
+                    name: productName, 
+                    price: price, 
+                    quantity: 1,
+                    id: Date.now() // Simple ID for removal
+                });
+            }
+            
             cartCount++;
             document.getElementById('cartCounter').textContent = cartCount;
             
             showNotification();
+        }
+
+        function removeFromCart(productId) {
+            const productIndex = cart.findIndex(item => item.id === productId);
+            
+            if (productIndex !== -1) {
+                const product = cart[productIndex];
+                cartCount -= product.quantity;
+                cart.splice(productIndex, 1);
+                
+                document.getElementById('cartCounter').textContent = cartCount;
+                updateCartDisplay();
+            }
+        }
+
+        function updateCartDisplay() {
+            const cartItemsContainer = document.getElementById('cartItems');
+            const cartTotalContainer = document.getElementById('cartTotal');
+            
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<div class="empty-cart">Keranjang masih kosong</div>';
+                cartTotalContainer.innerHTML = '';
+                return;
+            }
+            
+            // Display cart items
+            cartItemsContainer.innerHTML = cart.map(item => `
+                <div class="cart-item">
+                    <div class="item-info">
+                        <div class="item-name">${item.name}</div>
+                        <div class="item-price">Rp ${item.price.toLocaleString('id-ID')} × ${item.quantity}</div>
+                    </div>
+                    <button class="remove-item" onclick="removeFromCart(${item.id})">Hapus</button>
+                </div>
+            `).join('');
+            
+            // Calculate and display total
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            cartTotalContainer.innerHTML = `
+                <div class="total-text">Total:</div>
+                <div class="total-amount">Rp ${total.toLocaleString('id-ID')}</div>
+            `;
+        }
+
+        function toggleCart() {
+            const cartModal = document.getElementById('cartModal');
+            cartModal.style.display = 'flex';
+            updateCartDisplay();
+        }
+
+        function closeCart() {
+            const cartModal = document.getElementById('cartModal');
+            cartModal.style.display = 'none';
         }
 
         function showNotification() {
@@ -580,35 +782,18 @@
             }, 3000);
         }
 
-        function toggleCart() {
-            if (cart.length === 0) {
-                alert('Keranjang masih kosong!');
-                return;
-            }
-            
-            let cartItems = 'Keranjang Belanja:\n\n';
-            let total = 0;
-            
-            cart.forEach((item, index) => {
-                cartItems += `${index + 1}. ${item.name} - Rp ${item.price.toLocaleString('id-ID')}\n`;
-                total += item.price;
-            });
-            
-            cartItems += `\nTotal: Rp ${total.toLocaleString('id-ID')}`;
-            cartItems += '\n\nKlik OK untuk melanjutkan pemesanan via WhatsApp';
-            
-            if (confirm(cartItems)) {
-                // Redirect to WhatsApp
-                const message = encodeURIComponent(`Halo, saya ingin memesan:\n${cart.map(item => `- ${item.name} (Rp ${item.price.toLocaleString('id-ID')})`).join('\n')}\n\nTotal: Rp ${total.toLocaleString('id-ID')}`);
-                window.open(`https://wa.me/6281234567890?text=${message}`, '_blank');
-            }
-        }
-
         function scrollToProducts() {
             document.getElementById('products').scrollIntoView({
                 behavior: 'smooth'
             });
         }
+
+        // Close cart when clicking outside
+        document.getElementById('cartModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeCart();
+            }
+        });
 
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
